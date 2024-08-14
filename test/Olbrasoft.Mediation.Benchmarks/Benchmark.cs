@@ -19,6 +19,10 @@ public class Benchmark
     private ReflectionMediator _reflectionMediator;
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private RequestHandlerWrapperMediator _requestHandlerWrapperMediator;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
 
     [GlobalSetup]
     public void GlobalSetup()
@@ -26,12 +30,16 @@ public class Benchmark
         IServiceCollection services = new ServiceCollection();
 
 
-        services.AddTransient<IRequestHandler<AwesomeRequest, string>, AwesomeRequestHandler>();
+        // services.AddTransient<IRequestHandler<AwesomeRequest, string>, AwesomeRequestHandler>();
 
         // services.AddSingleton<Factory>(p => p.GetService!);
 
 
+        services.AddMediation(typeof(AwesomeRequestHandler).Assembly);
+
+
         services.AddSingleton<Func<Type, IBaseRequestHandler>>(p => (t) => (IBaseRequestHandler)p.GetRequiredService(t));
+
 
         services.AddSingleton<Func<Type, object>>(p => (t) => p.GetRequiredService(t));
 
@@ -41,6 +49,8 @@ public class Benchmark
 
         services.AddTransient<DynamicMediator, DynamicMediator>();
 
+        services.AddTransient<RequestHandlerWrapperMediator, RequestHandlerWrapperMediator>();
+
         services.AddTransient<ReflectionMediator, ReflectionMediator>();
 
         var provider = services.BuildServiceProvider();
@@ -48,7 +58,7 @@ public class Benchmark
         _requestHandlerMediator = provider.GetRequiredService<RequestHandlerMediator>();
         _dynamicMediator = provider.GetRequiredService<DynamicMediator>();
         _reflectionMediator = provider.GetRequiredService<ReflectionMediator>();
-
+        _requestHandlerWrapperMediator = provider.GetRequiredService<RequestHandlerWrapperMediator>();
 
         _request = new AwesomeRequest();
     }
@@ -77,5 +87,11 @@ public class Benchmark
 
     }
 
+    [Benchmark]
+    public async Task RequestHandlerWrapperMediatorSend()
+    {
+        var result = await _requestHandlerWrapperMediator.MediateAsync(_request);
+
+    }
 
 }

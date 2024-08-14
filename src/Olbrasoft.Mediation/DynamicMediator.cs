@@ -15,21 +15,21 @@ public class DynamicMediator(Func<Type, object> getHandler) : IMediator
         if (request is not null)
         {
 
-            //return (_handlers.GetOrAdd(request.GetType(),
-            //    requestType =>
-            //    {
-            //        var handlerType = (typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResponse)));
-            //        return _getHandler(handlerType) ?? throw new InvalidOperationException($"Could not create handler for handlerType {handlerType}");
-            //    })).HandleAsync((dynamic)request, token);
+            return (_handlers.GetOrAdd(request.GetType(),
+                requestType =>
+                {
+                    var handlerType = (typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResponse)));
+                    return _getHandler(handlerType) ?? throw new InvalidOperationException($"Could not create handler for handlerType {handlerType}");
+                })).HandleAsync((dynamic)request, token);
 
 
 
-            var handlerType = typeof(IRequestHandler<,>)
-                .MakeGenericType(request.GetType(), typeof(TResponse));
+            //var handlerType = typeof(IRequestHandler<,>)
+            //    .MakeGenericType(request.GetType(), typeof(TResponse));
 
-            dynamic handler = _getHandler(handlerType);
+            //dynamic handler = _getHandler(handlerType);
 
-            return handler.HandleAsync((dynamic)request, token);
+            //return handler.HandleAsync((dynamic)request, token);
         }
 
         throw new ArgumentNullException(nameof(request));

@@ -32,7 +32,15 @@ public class ReflectionMediator(Func<Type, object> getHandler) : IMediator
             }
         }
 
+#pragma warning disable IDE0300 // Simplify collection initialization
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         return (Task<TResponse>)handlerAndMethod.Item2.Invoke(handlerAndMethod.Item1, new object[] { request, token });
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8603 // Possible null reference return.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore IDE0300 // Simplify collection initialization
 
 
 
