@@ -1,4 +1,4 @@
-namespace Mediation.Abstractions;
+namespace Olbrasoft.Mediation.Abstractions;
 
 /// <summary>
 /// Marker interface to represent a request with a response
