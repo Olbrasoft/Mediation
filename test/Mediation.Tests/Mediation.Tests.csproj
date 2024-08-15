@@ -7,6 +7,8 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <AssemblyName>Olbrasoft.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Olbrasoft.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Olbrasoft.Mediation\Olbrasoft.Mediation.csproj" />
+    <ProjectReference Include="..\..\src\Mediation\Mediation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

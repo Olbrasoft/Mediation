@@ -86,7 +86,9 @@ public class DynamicMediatorTests
     public async Task MediateAsync_Throw_ArgumentNullException_If_Request_Is_Null()
     {
         //Arrange
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
         IRequest<string> request = null;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
         var handler = new Mock<IRequestHandler<IRequest<object>, object>>();
 
         var getHandler = new Mock<Func<Type, object>>();

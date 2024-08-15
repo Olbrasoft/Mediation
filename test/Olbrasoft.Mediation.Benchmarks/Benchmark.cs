@@ -1,6 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Dispatching.Benchmarks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Olbrasoft.Extensions.DependencyInjection;
 
 namespace Olbrasoft.Mediation.Benchmarks;
 public class Benchmark
@@ -23,6 +25,10 @@ public class Benchmark
     private RequestHandlerWrapperMediator _requestHandlerWrapperMediator;
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private IMediator _mediator;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
 
     [GlobalSetup]
     public void GlobalSetup()
@@ -30,28 +36,25 @@ public class Benchmark
         IServiceCollection services = new ServiceCollection();
 
 
-        // services.AddTransient<IRequestHandler<AwesomeRequest, string>, AwesomeRequestHandler>();
-
-        // services.AddSingleton<Factory>(p => p.GetService!);
+        services.AddMediation(typeof(AwesomeRequestHandler).Assembly).UseRequestHandlerMediator();
 
 
-        services.AddMediation(typeof(AwesomeRequestHandler).Assembly);
+        // services.TryAddSingleton<Func<Type, IBaseRequestHandler>>(p => (t) => (IBaseRequestHandler)p.GetRequiredService(t));
+        // services.TryAdd(new ServiceDescriptor(typeof(RequestHandler<,>), typeof(RequestHandler<,>), ServiceLifetime.Transient));
+
+        services.TryAddSingleton<Func<Type, object>>(p => (t) => p.GetRequiredService(t));
 
 
-        services.AddSingleton<Func<Type, IBaseRequestHandler>>(p => (t) => (IBaseRequestHandler)p.GetRequiredService(t));
-
-
-        services.AddSingleton<Func<Type, object>>(p => (t) => p.GetRequiredService(t));
-
-        services.AddTransient(typeof(RequestHandler<,>), typeof(RequestHandler<,>));
-
-        services.AddTransient<RequestHandlerMediator, RequestHandlerMediator>();
 
         services.AddTransient<DynamicMediator, DynamicMediator>();
 
         services.AddTransient<RequestHandlerWrapperMediator, RequestHandlerWrapperMediator>();
 
         services.AddTransient<ReflectionMediator, ReflectionMediator>();
+
+        services.AddTransient<RequestHandlerMediator, RequestHandlerMediator>();
+
+
 
         var provider = services.BuildServiceProvider();
 
@@ -60,10 +63,25 @@ public class Benchmark
         _reflectionMediator = provider.GetRequiredService<ReflectionMediator>();
         _requestHandlerWrapperMediator = provider.GetRequiredService<RequestHandlerWrapperMediator>();
 
+        _mediator = provider.GetRequiredService<IMediator>();
+
         _request = new AwesomeRequest();
     }
 
 
+
+    [Benchmark]
+    public async Task IMediatorSend()
+    {
+        var result = await _mediator.MediateAsync(_request);
+    }
+
+
+    [Benchmark]
+    public async Task RequestHandlerMediatorSend()
+    {
+        var result = await _requestHandlerMediator.MediateAsync(_request);
+    }
 
 
     [Benchmark]
@@ -80,12 +98,7 @@ public class Benchmark
 
     }
 
-    [Benchmark]
-    public async Task RequestHandlerMediatorSend()
-    {
-        var result = await _requestHandlerMediator.MediateAsync(_request);
 
-    }
 
     [Benchmark]
     public async Task RequestHandlerWrapperMediatorSend()

@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>Olbrasoft.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Olbrasoft.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Olbrasoft.Mediation.Abstractions\Olbrasoft.Mediation.Abstractions.csproj" />
+    <ProjectReference Include="..\Mediation.Abstractions\Mediation.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

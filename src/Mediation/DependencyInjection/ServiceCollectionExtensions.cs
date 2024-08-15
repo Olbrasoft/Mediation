@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Olbrasoft.Mediation;
 using Olbrasoft.Mediation.Abstractions;
 using System.Reflection;
 
-namespace Olbrasoft.Mediation;
+namespace Olbrasoft.Extensions.DependencyInjection;
 
 
 public static class ServiceCollectionExtensions
@@ -323,13 +324,13 @@ public static class ServiceCollectionExtensions
             foreach (
                 var interfaceType in
                 pluggedType.GetInterfaces()
-                    .Where(type => type.IsGenericType && (type.GetGenericTypeDefinition() == templateType)))
+                    .Where(type => type.IsGenericType && type.GetGenericTypeDefinition() == templateType))
             {
                 yield return interfaceType;
             }
         }
         else if (pluggedType.BaseType!.IsGenericType &&
-                 (pluggedType.BaseType!.GetGenericTypeDefinition() == templateType))
+                 pluggedType.BaseType!.GetGenericTypeDefinition() == templateType)
         {
             yield return pluggedType.BaseType!;
         }

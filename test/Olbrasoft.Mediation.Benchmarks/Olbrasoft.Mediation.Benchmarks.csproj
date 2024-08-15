@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Olbrasoft.Mediation\Olbrasoft.Mediation.csproj" />
+    <ProjectReference Include="..\..\src\Mediation\Mediation.csproj" />
   </ItemGroup>
 
 </Project>
