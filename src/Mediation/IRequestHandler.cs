@@ -1,6 +1,4 @@
-﻿using Olbrasoft.Mediation.Abstractions;
-
-namespace Olbrasoft.Mediation;
+﻿namespace Olbrasoft.Mediation;
 /// <summary>
 /// Defines a handler for a request
 /// </summary>

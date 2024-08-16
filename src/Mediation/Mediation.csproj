@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+	  <TargetFrameworks>Net6;Net7;Net8</TargetFrameworks>
+	  <LangVersion>12</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>Olbrasoft.$(MSBuildProjectName)</AssemblyName>
@@ -15,5 +16,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Mediation.Abstractions\Mediation.Abstractions.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Olbrasoft.Mediation.Abstractions"/>
+	</ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Olbrasoft.Mediation;
-using Olbrasoft.Mediation.Abstractions;
 using System.Reflection;
 
 namespace Olbrasoft.Extensions.DependencyInjection;

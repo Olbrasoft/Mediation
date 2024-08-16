@@ -1,5 +1,4 @@
-﻿using Olbrasoft.Mediation.Abstractions;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Olbrasoft.Mediation;

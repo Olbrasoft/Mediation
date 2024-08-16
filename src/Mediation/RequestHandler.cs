@@ -1,6 +1,4 @@
-﻿using Olbrasoft.Mediation.Abstractions;
-
-namespace Olbrasoft.Mediation;
+﻿namespace Olbrasoft.Mediation;
 
 public class RequestHandler<TRequest, TResponse>(IRequestHandler<TRequest, TResponse> handler) : IRequestHandler<TResponse> where TRequest : IRequest<TResponse>
 {

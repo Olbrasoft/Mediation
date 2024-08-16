@@ -3,12 +3,7 @@
 namespace Olbrasoft.Mediation;
 
 
-public class MediationBuilder
+public class MediationBuilder(IServiceCollection services)
 {
-    public IServiceCollection Services { get; init; }
-
-    public MediationBuilder(IServiceCollection services)
-    {
-        Services = services ?? throw new ArgumentNullException();
-    }
+    public IServiceCollection Services { get; } = services ?? throw new ArgumentNullException();
 }

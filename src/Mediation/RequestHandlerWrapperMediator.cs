@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Olbrasoft.Mediation.Abstractions;
 using System.Collections.Concurrent;
 
 namespace Olbrasoft.Mediation;
