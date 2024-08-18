@@ -1,8 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Dispatching.Benchmarks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Olbrasoft.Extensions.DependencyInjection;
 
 namespace Olbrasoft.Mediation.Benchmarks;
 public class Benchmark
@@ -36,32 +34,33 @@ public class Benchmark
         IServiceCollection services = new ServiceCollection();
 
 
-        services.AddMediation(typeof(AwesomeRequestHandler).Assembly).UseRequestHandlerMediator();
+        services.AddMediation(typeof(AwesomeRequestHandler).Assembly).UseDynamicMediator();
 
 
         // services.TryAddSingleton<Func<Type, IBaseRequestHandler>>(p => (t) => (IBaseRequestHandler)p.GetRequiredService(t));
         // services.TryAdd(new ServiceDescriptor(typeof(RequestHandler<,>), typeof(RequestHandler<,>), ServiceLifetime.Transient));
 
-        services.TryAddSingleton<Func<Type, object>>(p => (t) => p.GetRequiredService(t));
+
+        // services.TryAddSingleton<Func<Type, object>>(p => (t) => p.GetRequiredService(t));
 
 
 
-        services.AddTransient<DynamicMediator, DynamicMediator>();
+        //  services.AddTransient<DynamicMediator, DynamicMediator>();
 
-        services.AddTransient<RequestHandlerWrapperMediator, RequestHandlerWrapperMediator>();
+        //services.AddTransient<RequestHandlerWrapperMediator, RequestHandlerWrapperMediator>();
 
-        services.AddTransient<ReflectionMediator, ReflectionMediator>();
+        //services.AddTransient<ReflectionMediator, ReflectionMediator>();
 
-        services.AddTransient<RequestHandlerMediator, RequestHandlerMediator>();
+        //services.AddTransient<RequestHandlerMediator, RequestHandlerMediator>();
 
 
 
         var provider = services.BuildServiceProvider();
 
-        _requestHandlerMediator = provider.GetRequiredService<RequestHandlerMediator>();
-        _dynamicMediator = provider.GetRequiredService<DynamicMediator>();
-        _reflectionMediator = provider.GetRequiredService<ReflectionMediator>();
-        _requestHandlerWrapperMediator = provider.GetRequiredService<RequestHandlerWrapperMediator>();
+        //  _requestHandlerMediator = provider.GetRequiredService<RequestHandlerMediator>();
+        //_dynamicMediator = provider.GetRequiredService<DynamicMediator>();
+        //_reflectionMediator = provider.GetRequiredService<ReflectionMediator>();
+        //_requestHandlerWrapperMediator = provider.GetRequiredService<RequestHandlerWrapperMediator>();
 
         _mediator = provider.GetRequiredService<IMediator>();
 
@@ -77,34 +76,34 @@ public class Benchmark
     }
 
 
-    [Benchmark]
-    public async Task RequestHandlerMediatorSend()
-    {
-        var result = await _requestHandlerMediator.MediateAsync(_request);
-    }
+    //[Benchmark]
+    //public async Task RequestHandlerMediatorSend()
+    //{
+    //    var result = await _requestHandlerMediator.MediateAsync(_request);
+    //}
 
 
-    [Benchmark]
-    public async Task DynamicMediatorSend()
-    {
-        var result = await _dynamicMediator.MediateAsync(_request);
+    //[Benchmark]
+    //public async Task DynamicMediatorSend()
+    //{
+    //    var result = await _dynamicMediator.MediateAsync(_request);
 
-    }
+    //}
 
-    [Benchmark]
-    public async Task ReflectionMediatorSend()
-    {
-        var result = await _reflectionMediator.MediateAsync(_request);
+    //[Benchmark]
+    //public async Task ReflectionMediatorSend()
+    //{
+    //    var result = await _reflectionMediator.MediateAsync(_request);
 
-    }
+    //}
 
 
 
-    [Benchmark]
-    public async Task RequestHandlerWrapperMediatorSend()
-    {
-        var result = await _requestHandlerWrapperMediator.MediateAsync(_request);
+    //[Benchmark]
+    //public async Task RequestHandlerWrapperMediatorSend()
+    //{
+    //    var result = await _requestHandlerWrapperMediator.MediateAsync(_request);
 
-    }
+    //}
 
 }

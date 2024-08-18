@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Olbrasoft.Mediation;
 using System.Reflection;
 
-namespace Olbrasoft.Extensions.DependencyInjection;
+namespace Olbrasoft.Mediation;
 
 
 public static class ServiceCollectionExtensions

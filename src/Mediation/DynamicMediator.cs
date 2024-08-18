@@ -2,12 +2,12 @@
 
 namespace Olbrasoft.Mediation;
 
-public class DynamicMediator(Func<Type, object> getHandler) : IMediator
+public class DynamicMediator(Func<Type, dynamic> getHandler) : IMediator
 {
 
     private static readonly ConcurrentDictionary<Type, dynamic> _handlers = new();
 
-    private readonly Func<Type, object> _getHandler = getHandler ?? throw new ArgumentNullException(nameof(getHandler));
+    private readonly Func<Type, dynamic> _getHandler = getHandler ?? throw new ArgumentNullException(nameof(getHandler));
 
     public Task<TResponse> MediateAsync<TResponse>(IRequest<TResponse> request, CancellationToken token = default)
     {

@@ -7,6 +7,25 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>Olbrasoft.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>Olbrasoft.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<Product>Olbrasoft.Mediation</Product>
+		<PackageIcon>mediation.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/Olbrasoft/Mediation</PackageProjectUrl>
+		<Copyright>© Olbrasoft 2024</Copyright>
+		<Company>OLbrasoft</Company>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\mediation.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 </Project>

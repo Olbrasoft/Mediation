@@ -1,6 +1,4 @@
-﻿using Olbrasoft.Extensions.DependencyInjection;
-
-namespace Olbrasoft.Mediation.Tests.DependencyInjection;
+﻿namespace Olbrasoft.Mediation.Tests;
 public class MediationBuilderExtensionsTests
 {
     //add test if MediationBuilderExtensions namespace is Olbrasoft.Extensions.DependencyInjection

@@ -1,6 +1,4 @@
-﻿using Olbrasoft.Extensions.DependencyInjection;
-
-namespace Olbrasoft.Mediation.Tests.DependencyInjection;
+﻿namespace Olbrasoft.Mediation.Tests;
 public class ServiceCollectionExtensionsTests
 {
 
@@ -9,7 +7,7 @@ public class ServiceCollectionExtensionsTests
     public void ServiceCollectionExtensions_Namespace_ShouldBe_Olbrasoft_Extensions_DependencyInjection()
     {
         // Arrange
-        var expectedNamespace = "Olbrasoft.Extensions.DependencyInjection";
+        var expectedNamespace = "Olbrasoft.Mediation";
 
         // Act
         var actualNamespace = typeof(ServiceCollectionExtensions).Namespace;
