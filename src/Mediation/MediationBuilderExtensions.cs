@@ -9,6 +9,17 @@ namespace Olbrasoft.Mediation;
 /// </summary>
 public static class MediationBuilderExtensions
 {
+
+
+    public static IServiceCollection UseRequestHandlerWrapperMediator(this MediationBuilder builder, ServiceLifetime lifetime = ServiceLifetime.Transient)
+    {
+
+        builder.Services.TryAdd(new ServiceDescriptor(typeof(IMediator), typeof(RequestHandlerWrapperMediator), lifetime));
+
+        return builder.Services;
+    }
+
+
     /// <summary>
     /// Configures the mediator to use request handlers.
     /// </summary>
@@ -17,7 +28,12 @@ public static class MediationBuilderExtensions
     /// <returns>The <see cref="IServiceCollection"/> instance.</returns>
     public static IServiceCollection UseRequestHandlerMediator(this MediationBuilder builder, ServiceLifetime lifetime = ServiceLifetime.Transient)
     {
-        builder.Services.TryAddSingleton<Func<Type, IBaseRequestHandler>>(p => (t) => (IBaseRequestHandler)p.GetRequiredService(t));
+        builder.Services.TryAdd(
+         new ServiceDescriptor(
+        typeof(Func<Type, IBaseRequestHandler>),
+        p => new Func<Type, IBaseRequestHandler>(t => (IBaseRequestHandler)p.GetRequiredService(t)),
+        lifetime));
+
         builder.Services.TryAdd(new ServiceDescriptor(typeof(RequestHandler<,>), typeof(RequestHandler<,>), lifetime));
         builder.Services.TryAdd(new ServiceDescriptor(typeof(IMediator), typeof(RequestHandlerMediator), lifetime));
         return builder.Services;
@@ -31,7 +47,17 @@ public static class MediationBuilderExtensions
     /// <returns>The <see cref="IServiceCollection"/> instance.</returns>
     public static IServiceCollection UseDynamicMediator(this MediationBuilder builder, ServiceLifetime lifetime = ServiceLifetime.Transient)
     {
-        builder.Services.TryAddSingleton<Func<Type, dynamic>>(p => (t) => p.GetRequiredService(t));
+        // builder.Services.TryAddSingleton<Func<Type, dynamic>>(p => (t) => p.GetRequiredService(t));
+
+        builder.Services.TryAdd(
+    new ServiceDescriptor(
+        typeof(Func<Type, dynamic>),
+        p => new Func<Type, dynamic>(t => p.GetRequiredService(t)),
+        lifetime
+    )
+);
+
+
         builder.Services.TryAdd(new ServiceDescriptor(typeof(IMediator), typeof(DynamicMediator), lifetime));
         return builder.Services;
     }

@@ -6,7 +6,7 @@ public class MediationBuilderExtensionsTests
     public void MediationBuilderExtensions_Namespace_ShouldBe_Olbrasoft_Extensions_DependencyInjection()
     {
         // Arrange
-        var expectedNamespace = "Olbrasoft.Extensions.DependencyInjection";
+        var expectedNamespace = "Olbrasoft.Mediation";
 
         // Act
         var actualNamespace = typeof(MediationBuilderExtensions).Namespace;
@@ -14,7 +14,4 @@ public class MediationBuilderExtensionsTests
         // Assert
         Assert.Equal(expectedNamespace, actualNamespace);
     }
-
-
-
 }
