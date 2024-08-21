@@ -47,15 +47,9 @@ public static class MediationBuilderExtensions
     /// <returns>The <see cref="IServiceCollection"/> instance.</returns>
     public static IServiceCollection UseDynamicMediator(this MediationBuilder builder, ServiceLifetime lifetime = ServiceLifetime.Transient)
     {
-        // builder.Services.TryAddSingleton<Func<Type, dynamic>>(p => (t) => p.GetRequiredService(t));
 
-        builder.Services.TryAdd(
-    new ServiceDescriptor(
-        typeof(Func<Type, dynamic>),
-        p => new Func<Type, dynamic>(t => p.GetRequiredService(t)),
-        lifetime
-    )
-);
+        builder.Services.TryAdd(new ServiceDescriptor(typeof(Func<Type, dynamic>),
+            p => new Func<Type, dynamic>(t => p.GetRequiredService(t)), lifetime));
 
 
         builder.Services.TryAdd(new ServiceDescriptor(typeof(IMediator), typeof(DynamicMediator), lifetime));
