@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;Net6;Net7;Net8</TargetFrameworks>
-		<LangVersion>12</LangVersion>
+		<TargetFrameworks>netstandard2.1;Net6;Net7;Net8;Net9</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Olbrasoft.$(MSBuildProjectName)</AssemblyName>
