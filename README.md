@@ -9,7 +9,7 @@ A lightweight, high-performance implementation of the mediator design pattern fo
 ## 🚀 Features
 
 - **High Performance**: Optimized for speed with minimal overhead
-- **Lightweight**: Zero external dependencies except Microsoft.Extensions.DependencyInjection.Abstractions
+- **Lightweight**: Zero external dependencies except Microsoft.Extensions.DependencyInjection.Abstractions (latest version 9.0.7)
 - **Multiple Mediator Implementations**: Choose the right mediator for your needs
   - `RequestHandlerMediator` - Direct handler resolution
   - `DynamicMediator` - Dynamic method invocation
@@ -35,7 +35,7 @@ dotnet add package Olbrasoft.Mediation
 
 ### PackageReference
 ```xml
-<PackageReference Include="Olbrasoft.Mediation" Version="1.1.0" />
+<PackageReference Include="Olbrasoft.Mediation" Version="9.0.1" />
 ```
 
 ## 🔧 Quick Start
