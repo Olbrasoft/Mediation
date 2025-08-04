@@ -35,7 +35,7 @@ dotnet add package Olbrasoft.Mediation
 
 ### PackageReference
 ```xml
-<PackageReference Include="Olbrasoft.Mediation" Version="1.0.4" />
+<PackageReference Include="Olbrasoft.Mediation" Version="1.1.0" />
 ```
 
 ## 🔧 Quick Start

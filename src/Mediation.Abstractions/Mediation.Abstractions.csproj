@@ -11,8 +11,13 @@
 		<PackageIcon>mediation.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/Olbrasoft/Mediation</PackageProjectUrl>
-		<Copyright>© Olbrasoft 2024</Copyright>
-		<Company>OLbrasoft</Company>
+		<Copyright>© Olbrasoft 2025</Copyright>
+		<Company>Olbrasoft</Company>
+		<Version>1.1.0</Version>
+		<Description>Core abstractions for the Mediation library - lightweight mediator pattern interfaces for .NET 6, 7, 8, 9 and .NET Standard 2.1</Description>
+		<Title>Mediation Abstractions</Title>
+		<PackageTags>Mediator;CQRS;Abstractions;Interfaces;NET9</PackageTags>
+		<PackageReleaseNotes>Version 1.1.0: Added support for .NET 9, core abstractions for high-performance mediator pattern</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
