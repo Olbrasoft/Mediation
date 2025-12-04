@@ -1,7 +1,7 @@
 # Mediation
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![.NET](https://img.shields.io/badge/.NET-6%7C7%7C8%7C9-blue)](https://dotnet.microsoft.com/download)
+[![.NET](https://img.shields.io/badge/.NET-6%7C7%7C8%7C9%7C10-blue)](https://dotnet.microsoft.com/download)
 [![NuGet](https://img.shields.io/nuget/v/Olbrasoft.Mediation.svg)](https://www.nuget.org/packages/Olbrasoft.Mediation/)
 [![Build](https://github.com/Olbrasoft/Mediation/actions/workflows/build.yml/badge.svg)](https://github.com/Olbrasoft/Mediation/actions/workflows/build.yml)
 [![Publish NuGet](https://github.com/Olbrasoft/Mediation/actions/workflows/publish-nuget.yml/badge.svg)](https://github.com/Olbrasoft/Mediation/actions/workflows/publish-nuget.yml)
@@ -11,14 +11,14 @@ A lightweight, high-performance implementation of the mediator design pattern fo
 ## 🚀 Features
 
 - **High Performance**: Optimized for speed with minimal overhead
-- **Lightweight**: Zero external dependencies except Microsoft.Extensions.DependencyInjection.Abstractions (latest version 9.0.7)
+- **Lightweight**: Zero external dependencies except Microsoft.Extensions.DependencyInjection.Abstractions
 - **Multiple Mediator Implementations**: Choose the right mediator for your needs
   - `RequestHandlerMediator` - Direct handler resolution
   - `DynamicMediator` - Dynamic method invocation
   - `ReflectionMediator` - Reflection-based approach
   - `RequestHandlerWrapperMediator` - Wrapper-based implementation with caching
 - **Dependency Injection Ready**: Built-in support for Microsoft.Extensions.DependencyInjection
-- **Multi-Target Framework**: Supports .NET 6, 7, 8, 9 and .NET Standard 2.1
+- **Multi-Target Framework**: Supports .NET 6, 7, 8, 9, 10 and .NET Standard 2.1
 - **Generic Request/Response**: Type-safe request and response handling
 - **Async/Await Support**: Fully asynchronous API
 - **Comprehensive Testing**: 96+ unit tests ensuring reliability
@@ -38,7 +38,7 @@ dotnet add package Olbrasoft.Mediation
 
 ### PackageReference
 ```xml
-<PackageReference Include="Olbrasoft.Mediation" Version="9.0.1" />
+<PackageReference Include="Olbrasoft.Mediation" Version="10.0.0" />
 ```
 
 ## 🔧 Quick Start

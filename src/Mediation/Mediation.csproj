@@ -12,14 +12,14 @@
     <Copyright>© 2025 Olbrasoft</Copyright>
     <PackageProjectUrl>https://github.com/Olbrasoft/Mediation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Olbrasoft/Mediation</RepositoryUrl>
-    <Description>A lightweight, high-performance implementation of the mediator design pattern for .NET applications with support for .NET 6, 7, 8, 9.</Description>
+    <Description>A lightweight, high-performance implementation of the mediator design pattern for .NET applications with support for .NET 6, 7, 8, 9, 10.</Description>
     <Title>Mediation - High-Performance Mediator Pattern</Title>
-    <Version>9.0.1</Version>
+    <Version>10.0.0</Version>
     <PackageIcon>mediation.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>Mediator;CQRS;RequestHandler;DependencyInjection;Performance;NET9</PackageTags>
+    <PackageTags>Mediator;CQRS;RequestHandler;DependencyInjection;Performance;NET10</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Version 9.0.1: Updated Microsoft.Extensions.DependencyInjection.Abstractions to 9.0.7, aligned version with .NET 9, improved compatibility with latest .NET versions</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 10.0.0: Full support for .NET 10, updated all dependencies to latest versions, aligned package version with .NET 10 for clear compatibility. No breaking changes - seamless upgrade from 9.0.1.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
