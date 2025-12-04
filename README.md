@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET](https://img.shields.io/badge/.NET-6%7C7%7C8%7C9-blue)](https://dotnet.microsoft.com/download)
 [![NuGet](https://img.shields.io/nuget/v/Olbrasoft.Mediation.svg)](https://www.nuget.org/packages/Olbrasoft.Mediation/)
+[![Build](https://github.com/Olbrasoft/Mediation/actions/workflows/build.yml/badge.svg)](https://github.com/Olbrasoft/Mediation/actions/workflows/build.yml)
+[![Publish NuGet](https://github.com/Olbrasoft/Mediation/actions/workflows/publish-nuget.yml/badge.svg)](https://github.com/Olbrasoft/Mediation/actions/workflows/publish-nuget.yml)
 
 A lightweight, high-performance implementation of the mediator design pattern for .NET applications. This library provides a simple and efficient way to implement CQRS (Command Query Responsibility Segregation) patterns and decouple your application components.
 
@@ -20,6 +22,7 @@ A lightweight, high-performance implementation of the mediator design pattern fo
 - **Generic Request/Response**: Type-safe request and response handling
 - **Async/Await Support**: Fully asynchronous API
 - **Comprehensive Testing**: 96+ unit tests ensuring reliability
+- **Automated CI/CD**: Continuous integration and deployment to NuGet.org
 
 ## 📦 Installation
 
