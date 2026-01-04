@@ -49,7 +49,8 @@ public class RecordRequestTests
         }
     }
 
-    public class GenericRecordRequestHandler<T> : IRequestHandler<GenericRecordRequest<T>, T>
+    // Generic handler - marked as abstract to prevent automatic registration during assembly scanning
+    public abstract class GenericRecordRequestHandler<T> : IRequestHandler<GenericRecordRequest<T>, T>
     {
         public Task<T> HandleAsync(GenericRecordRequest<T> request, CancellationToken token)
         {
