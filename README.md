@@ -158,6 +158,13 @@ public record SearchUsersQuery(string SearchTerm, int PageSize, int PageNumber)
 // Handler
 public class SearchUsersHandler : IRequestHandler<SearchUsersQuery, List<UserDto>>
 {
+    private readonly IUserRepository _repository;
+
+    public SearchUsersHandler(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+
     public async Task<List<UserDto>> HandleAsync(SearchUsersQuery query, CancellationToken cancellationToken)
     {
         // Search implementation
@@ -176,6 +183,13 @@ public record CreateUserCommand(string Name, string Email) : IRequest<int>;
 // Handler
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, int>
 {
+    private readonly IUserRepository _repository;
+
+    public CreateUserHandler(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+
     public async Task<int> HandleAsync(CreateUserCommand command, CancellationToken cancellationToken)
     {
         // Create user and return ID
