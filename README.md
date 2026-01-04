@@ -12,10 +12,10 @@ A lightweight, high-performance implementation of the mediator design pattern fo
 
 - **High Performance**: Optimized for speed with minimal overhead
 - **Lightweight**: Zero external dependencies except Microsoft.Extensions.DependencyInjection.Abstractions
+- **C# Records Support**: Full support for C# records as requests and responses
 - **Multiple Mediator Implementations**: Choose the right mediator for your needs
-  - `RequestHandlerMediator` - Direct handler resolution
+  - `RequestHandlerMediator` - Direct handler resolution (recommended)
   - `DynamicMediator` - Dynamic method invocation
-  - `ReflectionMediator` - Reflection-based approach
   - `RequestHandlerWrapperMediator` - Wrapper-based implementation with caching
 - **Dependency Injection Ready**: Built-in support for Microsoft.Extensions.DependencyInjection
 - **Multi-Target Framework**: Supports .NET 6, 7, 8, 9, 10 and .NET Standard 2.1
@@ -117,6 +117,113 @@ public class UserController : ControllerBase
 }
 ```
 
+## 📝 Using C# Records
+
+The library fully supports C# records for requests and responses, offering benefits like immutability, value equality, and concise syntax.
+
+### Simple Record Request
+
+```csharp
+// Record request with primary constructor
+public record GetUserByIdQuery(int UserId) : IRequest<UserDto>;
+
+// Record DTO for response
+public record UserDto(int Id, string Name, string Email);
+
+// Handler
+public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto>
+{
+    private readonly IUserRepository _repository;
+
+    public GetUserByIdHandler(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public async Task<UserDto> HandleAsync(GetUserByIdQuery query, CancellationToken cancellationToken)
+    {
+        var user = await _repository.GetByIdAsync(query.UserId);
+        return new UserDto(user.Id, user.Name, user.Email);
+    }
+}
+```
+
+### Record with Multiple Properties
+
+```csharp
+// Query with multiple properties
+public record SearchUsersQuery(string SearchTerm, int PageSize, int PageNumber)
+    : IRequest<List<UserDto>>;
+
+// Handler
+public class SearchUsersHandler : IRequestHandler<SearchUsersQuery, List<UserDto>>
+{
+    public async Task<List<UserDto>> HandleAsync(SearchUsersQuery query, CancellationToken cancellationToken)
+    {
+        // Search implementation
+        var users = await _repository.SearchAsync(query.SearchTerm, query.PageSize, query.PageNumber);
+        return users.Select(u => new UserDto(u.Id, u.Name, u.Email)).ToList();
+    }
+}
+```
+
+### Record Command
+
+```csharp
+// Command with record
+public record CreateUserCommand(string Name, string Email) : IRequest<int>;
+
+// Handler
+public class CreateUserHandler : IRequestHandler<CreateUserCommand, int>
+{
+    public async Task<int> HandleAsync(CreateUserCommand command, CancellationToken cancellationToken)
+    {
+        // Create user and return ID
+        var userId = await _repository.CreateAsync(command.Name, command.Email);
+        return userId;
+    }
+}
+```
+
+### Nested Records
+
+```csharp
+// Nested record structures
+public record CreateOrderCommand(
+    int CustomerId,
+    OrderDetails Details
+) : IRequest<int>;
+
+public record OrderDetails(
+    List<OrderItem> Items,
+    string ShippingAddress
+);
+
+public record OrderItem(int ProductId, int Quantity, decimal Price);
+```
+
+### Record Immutability with `with` Expression
+
+```csharp
+// Original query
+var query = new SearchUsersQuery("John", PageSize: 10, PageNumber: 1);
+
+// Create modified copy with 'with' expression
+var nextPageQuery = query with { PageNumber = 2 };
+
+// Original remains unchanged - records are immutable
+Console.WriteLine(query.PageNumber);      // 1
+Console.WriteLine(nextPageQuery.PageNumber); // 2
+```
+
+### Why Use Records?
+
+- **Immutability**: Records are immutable by default, preventing accidental modifications
+- **Value Equality**: Two records with same values are considered equal
+- **Concise Syntax**: Primary constructors reduce boilerplate
+- **Pattern Matching**: Work seamlessly with C# pattern matching
+- **CQRS Perfect**: Ideal for queries and commands in CQRS patterns
+
 ## 🎯 Mediator Types
 
 ### RequestHandlerMediator (Recommended)
@@ -131,13 +238,6 @@ Uses dynamic method invocation for flexibility.
 
 ```csharp
 services.AddMediation(assemblies).UseDynamicMediator();
-```
-
-### ReflectionMediator
-Reflection-based approach for complex scenarios.
-
-```csharp
-services.AddMediation(assemblies).UseReflectionMediator();
 ```
 
 ### RequestHandlerWrapperMediator
