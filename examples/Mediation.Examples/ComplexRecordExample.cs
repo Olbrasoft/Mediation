@@ -108,6 +108,8 @@ public class ComplexRecordExample
 
     #region Complex Handler with Validation
 
+    /// <summary>
+    /// </summary>
     public class SearchProductsHandler : IRequestHandler<SearchProductsQuery, PagedResult<ProductDto>>
     {
         private readonly IProductRepository _repository;
