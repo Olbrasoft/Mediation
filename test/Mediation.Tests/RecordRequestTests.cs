@@ -195,12 +195,10 @@ public class RecordRequestTests
         services.AddMediation(Assembly.GetExecutingAssembly());
         var serviceProvider = services.BuildServiceProvider();
 
-        // Generic handlers are registered differently - verify the base registration works
-        var handler = serviceProvider.GetService<IRequestHandler<GenericRecordRequest<int>, int>>();
-
-        // Assert - Generic handlers might not be auto-discovered, this is expected
+        // Assert - Generic handlers are not auto-discovered (this is a known limitation)
         // The important part is that the registration process doesn't fail with records
-        Assert.NotNull(services);
+        var handler = serviceProvider.GetService<IRequestHandler<GenericRecordRequest<int>, int>>();
+        Assert.Null(handler); // Generic handlers require manual registration
     }
 
     #endregion
@@ -406,7 +404,8 @@ public class RecordRequestTests
     [Fact]
     public async Task All_Mediators_Should_Handle_Same_Record_Request()
     {
-        // Arrange - Test that all 3 mediators work with the same record type
+        // Arrange - Test that all 3 configurable mediators (via fluent API) work with the same record type
+        // Note: RequestHandlerMediator, DynamicMediator, and RequestHandlerWrapperMediator
         var testValue = "integration test";
         var request = new SimpleRecordRequest(testValue);
         var expectedResult = $"Handled: {testValue}";
