@@ -71,7 +71,7 @@ public class ComplexRecordExample
     /// Generic paged result record.
     /// </summary>
     public record PagedResult<T>(
-        List<T> Items,
+        IReadOnlyList<T> Items,
         int TotalCount,
         int Page,
         int PageSize
@@ -124,7 +124,8 @@ public class ComplexRecordExample
             // Validate nested records
             if (!query.Paging.IsValid)
             {
-                throw new ArgumentException("Invalid paging options");
+                throw new ArgumentException(
+                    $"Invalid paging options. Page: {query.Paging.Page}, PageSize: {query.Paging.PageSize}");
             }
 
             if (query.Criteria.Price != null && !query.Criteria.Price.IsValid)

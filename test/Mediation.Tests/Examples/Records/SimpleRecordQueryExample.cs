@@ -44,6 +44,11 @@ public class SimpleRecordQueryExample
             // Fetch user from repository
             var user = await _repository.GetByIdAsync(query.UserId);
 
+            if (user is null)
+            {
+                throw new InvalidOperationException($"User with ID {query.UserId} was not found.");
+            }
+
             // Map to record DTO
             return new UserDto(user.Id, user.Name, user.Email);
         }
@@ -110,7 +115,7 @@ public class SimpleRecordQueryExample
 
             // Value-based equality - both queries are equal
             bool areEqual = query1 == query2; // true
-            bool areDifferent = query1 == query3; // false
+            bool areDifferent = query1 != query3; // true
 
             // Records also override GetHashCode properly
             var hashCode1 = query1.GetHashCode();
@@ -124,7 +129,8 @@ public class SimpleRecordQueryExample
         {
             var originalQuery = new GetUserByIdQuery(42);
 
-            // Cannot modify: originalQuery.UserId = 99; // Compile error
+            // Cannot modify properties directly - this would be a compile error:
+            // originalQuery.UserId = 99; // Compile error: property is init-only
 
             // Instead, use 'with' to create modified copy
             var modifiedQuery = originalQuery with { UserId = 99 };

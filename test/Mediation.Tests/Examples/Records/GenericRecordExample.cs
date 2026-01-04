@@ -228,8 +228,8 @@ public class GenericRecordExample
             // Type-safe - compiler knows result is List<Product>
             var productQuery = new SearchEntitiesQuery<Product>("search", 10, 1);
 
-            // Compile error if types don't match constraints
-            // var invalidQuery = new GetEntityByIdQuery<int>(42); // Error: int is not a class
+            // Example of a compile-time error (uncomment to see):
+            // var invalidQuery = new GetEntityByIdQuery<int>(42); // Compile error: int is not a class
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ public class GenericRecordExample
             // Same type parameter and value - equal
             bool areEqual = query1 == query2; // true
 
-            // Different type parameter - not equal (different types)
+            // Example of a compile-time error (uncomment to see):
             // bool notComparable = query1 == query3; // Compile error: can't compare different types
         }
     }
