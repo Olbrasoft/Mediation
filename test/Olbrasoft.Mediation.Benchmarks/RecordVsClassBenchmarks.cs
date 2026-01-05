@@ -17,6 +17,11 @@ public class RecordVsClassBenchmarks
     private const string UserName = "John Doe";
     private const string UserEmail = "john@example.com";
 
+    // Service providers (for disposal)
+    private ServiceProvider _provider1 = null!;
+    private ServiceProvider _provider2 = null!;
+    private ServiceProvider _provider3 = null!;
+
     // Mediators
     private IMediator _requestHandlerMediator = null!;
     private IMediator _dynamicMediator = null!;
@@ -28,6 +33,10 @@ public class RecordVsClassBenchmarks
     private GetUserClassQuery _classQuery1 = null!;
     private GetUserClassQuery _classQuery2 = null!;
 
+    // Pre-created instances for mediator benchmarks (to avoid allocation overhead)
+    private GetUserRecordQuery _recordQueryForMediator = null!;
+    private GetUserClassQuery _classQueryForMediator = null!;
+
     [GlobalSetup]
     public void Setup()
     {
@@ -36,30 +45,42 @@ public class RecordVsClassBenchmarks
         services1.AddMediation();
         services1.AddTransient<IRequestHandler<GetUserRecordQuery, UserDto>, GetUserRecordHandler>();
         services1.AddTransient<IRequestHandler<GetUserClassQuery, UserDto>, GetUserClassHandler>();
-        var provider1 = services1.BuildServiceProvider();
-        _requestHandlerMediator = provider1.GetRequiredService<IMediator>();
+        _provider1 = services1.BuildServiceProvider();
+        _requestHandlerMediator = _provider1.GetRequiredService<IMediator>();
 
         // Setup DynamicMediator
         var services2 = new ServiceCollection();
         services2.AddSingleton<IMediator, DynamicMediator>();
         services2.AddTransient<IRequestHandler<GetUserRecordQuery, UserDto>, GetUserRecordHandler>();
         services2.AddTransient<IRequestHandler<GetUserClassQuery, UserDto>, GetUserClassHandler>();
-        var provider2 = services2.BuildServiceProvider();
-        _dynamicMediator = provider2.GetRequiredService<IMediator>();
+        _provider2 = services2.BuildServiceProvider();
+        _dynamicMediator = _provider2.GetRequiredService<IMediator>();
 
         // Setup RequestHandlerWrapperMediator
         var services3 = new ServiceCollection();
         services3.AddSingleton<IMediator, RequestHandlerWrapperMediator>();
         services3.AddTransient<IRequestHandler<GetUserRecordQuery, UserDto>, GetUserRecordHandler>();
         services3.AddTransient<IRequestHandler<GetUserClassQuery, UserDto>, GetUserClassHandler>();
-        var provider3 = services3.BuildServiceProvider();
-        _requestHandlerWrapperMediator = provider3.GetRequiredService<IMediator>();
+        _provider3 = services3.BuildServiceProvider();
+        _requestHandlerWrapperMediator = _provider3.GetRequiredService<IMediator>();
 
         // Pre-create instances for equality benchmarks
         _recordQuery1 = new GetUserRecordQuery(UserId);
         _recordQuery2 = new GetUserRecordQuery(UserId);
         _classQuery1 = new GetUserClassQuery(UserId);
         _classQuery2 = new GetUserClassQuery(UserId);
+
+        // Pre-create instances for mediator benchmarks
+        _recordQueryForMediator = new GetUserRecordQuery(UserId);
+        _classQueryForMediator = new GetUserClassQuery(UserId);
+    }
+
+    [GlobalCleanup]
+    public void Cleanup()
+    {
+        _provider1?.Dispose();
+        _provider2?.Dispose();
+        _provider3?.Dispose();
     }
 
     #region Request Creation Benchmarks
@@ -140,13 +161,13 @@ public class RecordVsClassBenchmarks
     [Benchmark(Description = "RequestHandlerMediator - Record")]
     public async Task<UserDto> RequestHandlerMediatorRecord()
     {
-        return await _requestHandlerMediator.MediateAsync(new GetUserRecordQuery(UserId));
+        return await _requestHandlerMediator.MediateAsync(_recordQueryForMediator);
     }
 
     [Benchmark(Description = "RequestHandlerMediator - Class")]
     public async Task<UserDto> RequestHandlerMediatorClass()
     {
-        return await _requestHandlerMediator.MediateAsync(new GetUserClassQuery(UserId));
+        return await _requestHandlerMediator.MediateAsync(_classQueryForMediator);
     }
 
     #endregion
@@ -156,13 +177,13 @@ public class RecordVsClassBenchmarks
     [Benchmark(Description = "DynamicMediator - Record")]
     public async Task<UserDto> DynamicMediatorRecord()
     {
-        return await _dynamicMediator.MediateAsync(new GetUserRecordQuery(UserId));
+        return await _dynamicMediator.MediateAsync(_recordQueryForMediator);
     }
 
     [Benchmark(Description = "DynamicMediator - Class")]
     public async Task<UserDto> DynamicMediatorClass()
     {
-        return await _dynamicMediator.MediateAsync(new GetUserClassQuery(UserId));
+        return await _dynamicMediator.MediateAsync(_classQueryForMediator);
     }
 
     #endregion
@@ -172,13 +193,13 @@ public class RecordVsClassBenchmarks
     [Benchmark(Description = "RequestHandlerWrapperMediator - Record")]
     public async Task<UserDto> RequestHandlerWrapperMediatorRecord()
     {
-        return await _requestHandlerWrapperMediator.MediateAsync(new GetUserRecordQuery(UserId));
+        return await _requestHandlerWrapperMediator.MediateAsync(_recordQueryForMediator);
     }
 
     [Benchmark(Description = "RequestHandlerWrapperMediator - Class")]
     public async Task<UserDto> RequestHandlerWrapperMediatorClass()
     {
-        return await _requestHandlerWrapperMediator.MediateAsync(new GetUserClassQuery(UserId));
+        return await _requestHandlerWrapperMediator.MediateAsync(_classQueryForMediator);
     }
 
     #endregion
@@ -191,12 +212,10 @@ public class RecordVsClassBenchmarks
         return _recordQuery1 with { UserId = 99 };
     }
 
-    [Benchmark(Description = "Class property mutation")]
-    public GetUserClassQuery ClassPropertyMutation()
+    [Benchmark(Description = "Class copy with mutation")]
+    public GetUserClassQuery ClassCopyWithMutation()
     {
-        var query = new GetUserClassQuery(_classQuery1.UserId);
-        query.UserId = 99;
-        return query;
+        return new GetUserClassQuery(_classQuery1.UserId) { UserId = 99 };
     }
 
     #endregion
@@ -241,8 +260,8 @@ public class GetUserClassQuery : IRequest<UserDto>
 public class CreateUserClassCommand : IRequest<bool>
 {
     public int UserId { get; set; }
-    public string UserName { get; set; } = string.Empty;
-    public string UserEmail { get; set; } = string.Empty;
+    public string? UserName { get; set; }
+    public string? UserEmail { get; set; }
 }
 
 #endregion
